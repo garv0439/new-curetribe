@@ -51,7 +51,7 @@ export default function Slide6({ isActive }) {
         </ul>
       </div>
       <Link
-        to="/contact"
+        to="/contact#appointment-form"
         className="mt-8 inline-flex w-full max-w-xs items-center justify-center rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:bg-brand-light hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:mt-10 sm:w-auto sm:max-w-none sm:px-8"
       >
         Book Appointment

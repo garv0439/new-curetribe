@@ -1,10 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
-const initialForm = { name: '', email: '', phone: '', topic: 'general', message: '' }
+const initialForm = { name: '', email: '', phone: '', topic: 'booking', message: '' }
 
 export default function Contact() {
+  const location = useLocation()
   const [form, setForm] = useState(initialForm)
   const [submitted, setSubmitted] = useState(false)
+
+  useEffect(() => {
+    if (location.hash !== '#appointment-form') return
+    const el = document.getElementById('appointment-form')
+    if (!el) return
+    window.requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }, [location.pathname, location.hash])
 
   function handleChange(e) {
     const { name, value } = e.target
@@ -18,15 +29,15 @@ export default function Contact() {
 
   return (
     <div className="bg-white">
-      <header className="border-b border-brand-muted/70 bg-gradient-to-b from-brand-muted/20 to-white">
-        <div className="mx-auto max-w-6xl px-[max(1rem,env(safe-area-inset-left))] py-10 pr-[max(1rem,env(safe-area-inset-right))] sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-          <p className="text-sm font-semibold uppercase tracking-widest text-brand">Contact</p>
-          <h1 className="mt-3 max-w-3xl text-balance text-2xl font-bold tracking-tight text-brand sm:text-4xl lg:text-5xl">
+      <header className="w-full border-b border-brand-muted/70 bg-gradient-to-b from-brand-muted/20 to-white">
+        <div className="w-full px-[max(1rem,env(safe-area-inset-left))] py-10 pr-[max(1rem,env(safe-area-inset-right))] sm:px-8 sm:py-16 lg:px-12 lg:py-20 xl:px-16">
+          <p className="w-full text-sm font-semibold uppercase tracking-widest text-brand">Contact</p>
+          <h1 className="mt-3 w-full max-w-none text-balance text-2xl font-bold tracking-tight text-brand sm:text-4xl lg:text-5xl">
             Tell us what you need—we will route you to the right specialist
           </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-600 sm:mt-6 sm:text-lg">
-            Use the form for new bookings and general questions. For urgent medical emergencies, please contact your
-            local emergency services.
+          <p className="mt-4 w-full max-w-none text-base leading-relaxed text-slate-600 sm:mt-6 sm:text-lg">
+            Use the appointment form to request a visit. For urgent medical emergencies, please contact your local
+            emergency services.
           </p>
         </div>
       </header>
@@ -59,8 +70,8 @@ export default function Contact() {
             </ul>
           </div>
           <p className="mt-6 text-sm text-slate-500">
-            We typically reply within one business day. Include your time zone and preferred contact window in the
-            message.
+            We typically reply within one business day. In the appointment form, include your time zone and preferred
+            visit times.
           </p>
         </aside>
 
@@ -73,6 +84,7 @@ export default function Contact() {
               <p className="text-lg font-semibold text-brand">Thanks, {form.name || 'there'}!</p>
               <p className="mt-3 text-slate-600">
                 This demo form does not send email yet—wire it to your backend or a form service when you are ready.
+                We’ll follow up to confirm your appointment.
               </p>
               <button
                 type="button"
@@ -82,16 +94,24 @@ export default function Contact() {
                 }}
                 className="mt-8 min-h-[44px] w-full max-w-xs rounded-full border-2 border-brand px-6 py-3 text-sm font-semibold text-brand transition hover:bg-brand-muted/30 sm:w-auto"
               >
-                Send another message
+                Submit another appointment
               </button>
             </div>
           ) : (
             <form
+              id="appointment-form"
+              aria-labelledby="appointment-form-title"
               onSubmit={handleSubmit}
               className="rounded-2xl border border-brand-muted/80 bg-white p-4 shadow-sm sm:p-8"
               noValidate
             >
-              <div className="grid gap-6 sm:grid-cols-2">
+              <h2 id="appointment-form-title" className="text-xl font-bold text-brand sm:text-2xl">
+                Appointment form
+              </h2>
+              <p className="mt-2 text-sm text-slate-600">
+                Fill in your details and we’ll get back to you to schedule your visit.
+              </p>
+              <div className="mt-8 grid gap-6 sm:grid-cols-2">
                 <label className="block sm:col-span-2">
                   <span className="text-sm font-medium text-brand">Full name</span>
                   <input
@@ -127,15 +147,15 @@ export default function Contact() {
                   />
                 </label>
                 <label className="block sm:col-span-2">
-                  <span className="text-sm font-medium text-brand">Topic</span>
+                  <span className="text-sm font-medium text-brand">Appointment type</span>
                   <select
                     name="topic"
                     value={form.topic}
                     onChange={handleChange}
                     className="mt-2 w-full min-h-[44px] rounded-xl border border-brand-muted/80 bg-white px-4 py-3 text-base text-slate-800 outline-none ring-brand/30 transition focus:border-brand focus:ring-2"
                   >
-                    <option value="general">General question</option>
                     <option value="booking">Book an appointment</option>
+                    <option value="general">General question</option>
                     <option value="physio">Physiotherapy</option>
                     <option value="nutrition">Nutrition</option>
                     <option value="yoga">Yoga / movement</option>
@@ -143,7 +163,7 @@ export default function Contact() {
                   </select>
                 </label>
                 <label className="block sm:col-span-2">
-                  <span className="text-sm font-medium text-brand">Message</span>
+                  <span className="text-sm font-medium text-brand">Notes for your visit</span>
                   <textarea
                     required
                     name="message"
@@ -151,7 +171,7 @@ export default function Contact() {
                     onChange={handleChange}
                     rows={5}
                     className="mt-2 w-full min-h-[8rem] resize-y rounded-xl border border-brand-muted/80 px-4 py-3 text-base text-slate-800 outline-none ring-brand/30 transition focus:border-brand focus:ring-2"
-                    placeholder="Share goals, pain areas, or preferred times…"
+                    placeholder="Goals, pain areas, preferred days or times…"
                   />
                 </label>
               </div>
@@ -159,7 +179,7 @@ export default function Contact() {
                 type="submit"
                 className="mt-8 w-full rounded-full bg-brand py-4 text-base font-semibold text-white shadow-lg transition hover:bg-brand-light sm:w-auto sm:px-12"
               >
-                Send message
+                Submit appointment request
               </button>
             </form>
           )}

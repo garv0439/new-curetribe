@@ -24,13 +24,13 @@ const timeline = [
 export default function About() {
   return (
     <div className="bg-white">
-      <header className="border-b border-brand-muted/70 bg-gradient-to-b from-brand-muted/20 to-white">
-        <div className="mx-auto max-w-6xl px-[max(1rem,env(safe-area-inset-left))] py-10 pr-[max(1rem,env(safe-area-inset-right))] sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-          <p className="text-sm font-semibold uppercase tracking-widest text-brand">About Cure Tribe</p>
-          <h1 className="mt-3 max-w-3xl text-balance text-2xl font-bold tracking-tight text-brand sm:text-4xl lg:text-5xl">
+      <header className="w-full border-b border-brand-muted/70 bg-gradient-to-b from-brand-muted/20 to-white">
+        <div className="w-full px-[max(1rem,env(safe-area-inset-left))] py-10 pr-[max(1rem,env(safe-area-inset-right))] sm:px-8 sm:py-16 lg:px-12 lg:py-20 xl:px-16">
+          <p className="w-full text-sm font-semibold uppercase tracking-widest text-brand">About Cure Tribe</p>
+          <h1 className="mt-3 w-full max-w-none text-balance text-2xl font-bold tracking-tight text-brand sm:text-4xl lg:text-5xl">
             We built a tribe around better movement—and kept growing from there
           </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-600 sm:mt-6 sm:text-lg">
+          <p className="mt-4 w-full max-w-none text-base leading-relaxed text-slate-600 sm:mt-6 sm:text-lg">
             Cure Tribe began when our founders saw too many people bouncing between disconnected providers. Today we are
             a multidisciplinary team united by one promise: make expert care coordinated, kind, and actually reachable.
           </p>
